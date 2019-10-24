@@ -1,0 +1,30 @@
+/*
+	2.俩数相加
+	俩个链表相应结点进行计算大于10下一次计算加1；当俩个链表都相加完成时判断最后一次相加是否大于10；
+	class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode *sum = new ListNode(0);//新的链表
+        ListNode *p = l1;
+        ListNode *q = l2;
+        ListNode *head = sum;
+        int post = 0;//进位
+        while(p != NULL || q != NULL)
+        {
+            int i = (p != NULL) ? p->val : 0;
+            int j = (q != NULL) ? q->val : 0;
+            int num = i + j + post;
+            post = num / 10;//不用进行判断对进位进行重置
+            head->next = new ListNode( num % 10);
+            head = head->next;
+            if (p != NULL) p = p->next;
+	        if (q != NULL) q = q->next;
+        }
+		//俩个链表遍历完成，最高位之和是否大于10大于新链表添加一个结点；
+        if(post > 0)
+        {
+            head->next = new ListNode(post);
+        }
+        return sum->next;
+    }
+*/

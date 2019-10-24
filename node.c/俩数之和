@@ -1,0 +1,66 @@
+/*
+	俩数之和
+	1.暴力法	
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> twoSum;
+        for(int i=0;i<nums.size();i++){
+            for(int j=i+1;j<nums.size();j++){
+                if((nums[i]+nums[j])==target){
+                    twoSum.push_back(i);
+                    twoSum.push_back(j);
+                }
+            }
+        }
+    return twoSum;
+    }
+};
+	2.map
+	为了对运行时间复杂度进行优化，我们需要一种更有效的方法来检查数组中是否存在目标元素。如果存在，我们需要找出它的索引。保持数组中的每个元素与其索引相互对应的最好方法是什么？哈希表。
+	map<key, value> key = nums[i]  value = i;
+	vector<int> twoSum(vector<int>& nums, int target) {
+	vector<int> twoSum;
+	map<int, int> tmpmap;//键值为nums的值，变量值为nums下标
+	for (int i = 0; i < nums.size(); i++)
+	{
+		tmpmap[nums[i]] = i;
+	}
+	for (int i = 0; i < nums.size(); i++) 
+	{
+		if (tmpmap.count(target - nums[i]) != 0 && tmpmap[target-nums[i]]!=i) 
+		{
+			//  如果目标值减去循环到的值对应的下标不为0，或者不为i，【存在有另一个数与循环值相加等于target，则返回结果】
+			twoSum.push_back(i);
+			twoSum.push_back(tmpmap[target - nums[i]]);
+			break;
+		}
+	}
+	return twoSum;
+}
+	3.一遍遍历map
+	从当前位置向前寻找合适的值的下表
+	vector<int> twoSum(vector<int>& nums, int target) {  
+    vector<int> twoSum;  
+    map<int, int> tmpmap;//键值为nums的值，变量值为nums下标  
+  
+    for (int i = 0; i < nums.size(); ++i) 
+	{  
+        if (tmpmap.count(nums[i]) != 0)
+		{  
+            twoSum.push_back(tmpmap[nums[i]]);  
+            twoSum.push_back(i);  
+            break;  
+        }  
+        tmpmap[target - nums[i]] = i;  
+    }  
+    return twoSum;  
+	4.map
+	第一个可以称为关键字(key)，每个关键字只能在map中出现一次；
+	第二个可能称为该关键字的值(value)；
+	{2,2,3,5}这样的数组是否有影响 target = 4;
+	两遍哈希也可以，就拿你的例子来说：{2,2,3,4,5}，target=4
+	首先往map中存：<2,1>,<3,2>,<4,3>,<5,4>；然后通过target-nums[0]的值来寻找map中是否存在，即在map中找key为2的--->找到<2,1>,
+	然后就可以成功返回0,1
+
+*/
