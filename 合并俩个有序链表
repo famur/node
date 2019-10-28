@@ -1,0 +1,78 @@
+/*
+	合并俩个有序链表
+	1.分治
+	我们直接将以上递归过程建模，首先考虑边界情况。
+	特殊的，如果 l1 或者 l2 一开始就是 null ，那么没有任何操作需要合并，所以我们只需要返回非空链表。
+	否则，我们要判断 l1 和 l2 哪一个的头元素更小，然后递归地决定下一个添加到结果里的值。
+	如果两个链表都是空的，那么过程终止，所以递归过程最终一定会终止。
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+         if(l1 == NULL)
+         {
+             return l2;
+         }
+        if(l2 == NULL)
+        {
+            return l1;
+        }
+        if(l1->val < l2->val)
+        {
+            l1->next=mergeTwoLists(l1->next,l2);
+            return l1;
+        }
+        else
+        {
+            l2->next = mergeTwoLists(l1,l2->next);
+            return l2;
+        }
+        
+    }
+};
+
+	2.递归
+	新建一个带有哨兵结点的链表，依次比较两个有序链表的结点值，将较小值的结点插入到新链表后面。
+	直到其中一个比较完毕，将另一个链表剩余的结点全部放到新链表最后面即可。
+	最后，可以删除哨兵结点，或者直接返回哨兵结点后第一个结点指针。
+	class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        
+        ListNode *head = new ListNode(0); // 新建哨兵结点，方便操作
+        ListNode *temp = head;
+        
+        // 依次比较两个链表的结点值，将值较小的结点插入到新建的链表后面
+        while(l1 && l2)
+        {
+            if (l2->val <= l1->val)
+            {
+                temp->next = l2;
+                temp = temp->next;
+                l2 = l2->next;
+            }
+            else
+            {
+                temp->next = l1;
+                temp = temp->next;
+                l1 = l1->next;
+            }
+        }
+        
+        // 其中一个链表比较完毕，将另外一个链表剩余结点直接插入到新建的链表后面
+        if (l1)
+        {
+            temp->next = l1;
+        }
+        else
+        {
+            temp->next = l2;
+        }
+        
+        temp = head;
+        head = head->next;// 删除哨兵结点
+        delete(temp);
+        
+        return head;  
+    }
+};
+*/
