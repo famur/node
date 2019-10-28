@@ -1,0 +1,56 @@
+/*
+	最长公共前缀
+	方法一：水平扫描法
+		第一个字符串的第一个字符依次与其他字符串的第一个字符进行判断，然后第二个，第三个。。。
+		class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        if(strs.empty()) 
+        {
+            return "";
+        }
+        for(int i=0;i<strs[0].size();++i)
+        {
+            for(int j=1;j<strs.size();++j)
+            {
+                if(strs[j][i]!=strs[0][i])
+                {
+                    return strs[0].substr(0,i);//没有开辟新串
+                }
+            }
+        }
+        return strs[0];
+    }
+};
+	
+	算法二：分治
+		为了应用上述的结论，我们使用分治的技巧，将原问题 LCP(S_i\cdots S_j)LCP(S i ⋯S j) 分成两个子问题 LCP(S_i\cdots S_{mid})LCP(S i⋯S mid) 与 LCP(S_{mid+1}, S_j)LCP(S mid+1,S j)
+		，其中 mid = \frac{i+j}{2} 2i+j。
+		我们用子问题的解 lcpLeft 与 lcpRight 构造原问题的解 LCP(S_i \cdots S_j)LCP(S 从头到尾挨个比较 lcpLeft 与 lcpRight 中的字符，直到不能再匹配为止。
+		计算所得的 lcpLeft 与 lcpRight 最长公共前缀就是原问题的解 
+		public String longestCommonPrefix(String[] strs) {
+    if (strs == null || strs.length == 0) return "";    
+        return longestCommonPrefix(strs, 0 , strs.length - 1);
+}
+
+private String longestCommonPrefix(String[] strs, int l, int r) {
+    if (l == r) {
+        return strs[l];
+    }
+    else {
+        int mid = (l + r)/2;
+        String lcpLeft =   longestCommonPrefix(strs, l , mid);
+        String lcpRight =  longestCommonPrefix(strs, mid + 1,r);
+        return commonPrefix(lcpLeft, lcpRight);
+   }
+}
+
+String commonPrefix(String left,String right) {
+    int min = Math.min(left.length(), right.length());       
+    for (int i = 0; i < min; i++) {
+        if ( left.charAt(i) != right.charAt(i) )
+            return left.substring(0, i);
+    }
+    return left.substring(0, min);
+}
+*/
