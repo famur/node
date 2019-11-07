@@ -1,0 +1,30 @@
+/*
+  倒置字符串
+    先将整个字符串逆置过来，再遍历字符串，找出每个单词，对单词逆置，逆置使用stl算法里的reverse
+#include<iostream>
+#include<string>
+#include<algorithm>
+
+using namespace std;
+
+int main()
+{
+	std::string s1;
+	getline(cin, s1);
+	reverse(s1.begin(), s1.end());
+	s1.push_back(' '); //同过空格来判断是否为一个单词逆置后最后一个单词没有空格
+	int start = 0;
+	for (int i = 0; i < s1.size(); i++)
+	{
+		if (s1[i] == ' ')
+		{
+			
+			reverse(s1.begin()+start, s1.begin()+i);
+			start  = i+1 ;
+		}
+	}
+	s1.pop_back();//删除多添加的空格
+	
+	return 0;
+}
+*/
