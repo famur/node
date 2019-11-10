@@ -1,0 +1,54 @@
+    进制转换  
+    就是进行取模余数就是当前第进制的位的值是多少，通过除掉进制数，进入下一个进制位的计算
+#include<iostream>
+#include<string>
+#include<algorithm>
+
+using namespace std;
+
+int main()
+{
+    int M,N ;
+    bool flag = false;
+    cin>> M >> N;
+    string s,post = "0123456789ABCDEF";
+    if(M < 0)
+    {
+        M = 0 - M;
+        flag = true;
+    }
+    while(M)
+    {
+        s += post[M%N];
+        M = M / N;
+    }
+    if(flag)
+        s += '-';
+    reverse(s.begin(), s.end());
+    cout << s << endl;
+    return 0;
+}
+
+计算糖果
+    以数学思维进行处理即可，注意计算机/后的结果都是整数无小数则结果可能有误
+#include<iostream>
+#include<vector>
+
+using namespace std;
+
+int main()
+{
+    int a,b,c,d;
+    cin>>a>>b>>c>>d;
+    int A = (a + c) / 2;
+    int B1 = (b + d) / 2;
+    int B2 = (c - a) / 2;
+    int C = (d - b) / 2;
+    if(B1 == B2)
+    {
+        cout << A << " " << B1 << " " << C << endl;
+    }
+    else
+        cout << "No" <<endl;
+    return 0;
+}
