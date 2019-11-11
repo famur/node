@@ -1,0 +1,36 @@
+统计回文
+    遍历str1，将str2 insert进入str1的每个位置，判断是否回文，是就count++；
+#include<iostream>
+#include<string>
+
+using namespacestd;
+
+bool IsCircletext(const string &s)
+{
+    size_t begin = 0;
+    size_t end = s.szie() - 1;
+    while(begin < end)
+    {
+        if(s[begin] != s[end])
+            return false;
+         begin++;
+         end++;
+    }
+    return true;
+}
+int main()
+{
+    string str1,str2;
+    getline(cin, str1);
+    grtline(cin, str2);
+    size_t count = 0;
+    for(size_t i = 0; i <= str1.size(); i++)
+    {
+        string str = str1;
+        str.insert(i, str2);
+        if(IsCircleText(str））
+            ++count；
+    }
+    cout << count << endl;
+    return 0;
+}
