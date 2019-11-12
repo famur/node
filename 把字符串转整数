@@ -1,0 +1,32 @@
+把字符串转整数
+    判断第一字符位正还是为负 得到数字符号后 将符号为置为字符‘0’ 方便排除第一个字符为是否合法和字符串转数字的方便
+class Solution {
+public:
+    int StrToInt(string str) {
+        if(str.empty())
+            return 0;
+        int res = 1;
+        if(str[0] == '-')
+        {
+            res = -1;
+            str[0] = '0';
+        }
+        else if(str[0] == '+')
+        {
+            res = 1;
+            str[0] = '0';
+        }
+        int num = 0;
+        for(int i = 0; i < str.size(); i++)
+        {
+            if(str[i] < '0' || str[i] > '9')
+            {
+                num = 0;//如果有一个字符为不和法字符 数字为 0；
+                break;
+            }
+            num = num * 10 + str[i] - '0';
+        }
+            
+        return (num * res);
+    }
+};
