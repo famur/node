@@ -1,0 +1,21 @@
+亦或表示不算进位之和，与右移一位表示进位值
+
+class UnusualAdd {
+public:
+    int addAB(int A, int B) {
+        // write code here
+        //位运算符
+        
+        while(B!=0)
+        {
+            int sum=A^B;//不考虑进位
+            int carry=(A&B)<<1;//进位值
+            
+            B=carry;//进位值给B
+            A=sum;//不考虑进位值的和给A
+        }
+        //当进位值为0时，结果就是A(即不考虑进位的sum)
+        return A;
+    }
+
+}；
