@@ -1,0 +1,41 @@
+井字棋有四种情况表示当前玩家获胜，1代表当前玩家棋子 1. 行全为1， 即行的和为3 2. 列全为1， 列的和为
+3 3. 主对角全为1， 对角和为3 4. 副对角全为1， 对角和为3 5. 如果扩展为N*N的话，判断和是否等于N，下
+面代码适用任何情况
+bool flag(vector<vector<int>> x)
+{
+        int e = 0;//e作为是否连线的标志，若是，则e应该等于N
+        int row = board.size();
+        for(int i=0;i<row;i++) {//从行判断输赢
+            for (int j = 0; j < row; j++) {
+                if (x[i][j] == 1)
+                    e++;
+            }
+            if (e == row)
+                return true;
+            e = 0;
+        }
+        for(int i=0;i<row;i++){//从列判断输赢
+            for(int j=0;j<row;j++){
+                if(x[j][i]==1)
+                    e++;
+            }
+            if(e==row)
+                return true;
+            e = 0;
+        }
+        for(int i=0;i<row;i++){//斜线判断输赢
+            if(x[i][i]==1)
+                e++;
+        }
+        if(e==row)
+            return true;
+        e = 0;
+        for(int i=0;i<row;i++){//反斜线判断输赢
+            if(x[i][row-i-1]==1)
+                e++;
+        }
+        if(e==row)
+            return true;
+        return false;
+
+}
