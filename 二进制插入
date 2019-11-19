@@ -1,0 +1,51 @@
+组成一个偶数 最近的俩个素数
+  最近的两个素数应该从最中间的位置开始向两边查找
+#include<iostream>
+#include<algorithm>
+
+using namespace std;
+
+bool IsPrime(int j)
+{
+    int tmp = sqrt(j);
+    for(int k = 2; k <= tmp; k++)
+    {
+        if(j%k == 0)
+        {
+            return false;
+        }
+    }
+    return  true;
+}
+
+int main()
+{
+    int n = 0;
+    while(cin>>n)
+    {
+        int post = n / 2;
+        int i = post;
+        for(; i > 0; i--)
+        {
+            if(IsPrime(i) && IsPrime(n - i))
+            {
+                break;
+            }
+        }
+        cout << i << endl << n - i << endl;
+    }
+    return 0;
+}
+
+二进制插入
+  m:1024：100000000 00 n:19 ： 10011 要把n的二进制值插入m的第j位到第i位，只需要把n先左移j位，然后再进行或运算（|）即可
+  保证n的第j到i位都为0 所以用或 | 可以插入
+  m的二进制位数<= i - j + 1 所以可以不考虑 i
+class BinInsert {
+public:
+    int binInsert(int n, int m, int j, int i) {
+        // write code here 
+        m<<=j;
+        return n | m;
+    }
+};
