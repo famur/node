@@ -1,0 +1,43 @@
+
+
+#include<iostream>
+ using namespace std;
+ class B
+ {
+ public:
+     B()
+     {
+         cout << "default constructor" << " ";
+     }
+     ~B()
+     {
+         cout << "destructed" << " ";
+     }
+     B(int i): data(i)
+     {
+         cout << "constructed by parameter" << data << " ";
+     } 
+     private: int data;
+ }; 
+ B Play( B b)
+ {
+     return b;
+ } 
+ int main(int argc, char *argv[])
+ {
+     B temp = Play(5);
+     return 0;
+ }
+ 
+
+调用Play函数需要将5隐式类型转换为Play函数中的形参b，会调用B的B(int i): data(i)，打印“constructed by parameter5”。
+Play函数返回时需要调用B的复制构造函数给对象temp初始化。
+Play函数返回后需要调用b的析构函数，将Play函数的形参释放，打印“destructed”。
+main函数返回后需要释放temp，打印“destructed”。
+
+
+哪个操作符不能被重载?
+
+
+c++不能重载的运算符有.（点号），::（域解析符），?:（条件语句运算符），sizeof（求字节运算符），typeid，static_cast，dynamic_cast，interpret_cast（三类类型转换符）
+。---出自C++ primer plus
