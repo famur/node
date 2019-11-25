@@ -1,0 +1,127 @@
+加法运算，每一位的值等于当前对应位的两数之和+进位。由于是加法，所以当前位的和最多是19（9 + 9 + 进位1)，
+所以产生的进位最多为1。故
+第一步：计算对应位的和，对应位相加 + 上一位的进位
+第二步：更新当前位的值， 和 %10 ，把值转成字符（和-'0'）存入字符结果中
+第三步：更新进位， 和 / 10， 然后计算下一位的值
+最后一步：如果计算完之后，进位为1，说明最高位产生了进位，所以需要再加一位，才是最后的结果。结果产生之
+后，需要逆置，得到最终结果
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+
+using namespace std;
+
+void Addstring(string add, string aug)
+{
+	string str;
+	int n = add.size() > aug.size() ? add.size() : aug.size();
+	int carry = 0;
+	int i = add.size() - 1;
+	int j = aug.size() - 1;
+	while(i >= 0 || j >= 0)
+	{
+		if (i >= 0)
+		{
+			carry += add[i] - '0';
+		}
+		if (j >= 0)
+		{
+			carry += aug[j] - '0';
+		}
+		str += (char)(carry % 10 + '0');
+		carry /= 10;
+		i--;
+		j--;
+	}
+	if (carry == 1)
+	{
+		str += '1';
+	}
+	reverse(str.begin(), str.end());
+	cout << str << endl;
+}
+
+int main()
+{
+	string add;
+	string aug;
+	while (cin >> add >> aug)
+	{
+		Addstring(add, aug);
+	}
+	system("pause");
+	return 0;
+}
+
+杨辉三角的变形
+按照题目意思，可以发现第n行有2n-1个元素，第i,j元素等于上一行第j-2,j-1,j三列元素之和，每一行的第一列和最
+后一列都为1，如果是第二列，则只是两个元素之和。
+
+#include <iostream>
+#include<vector>
+
+using namespace std;
+
+int main()
+{
+	int n, m;
+	while (cin >> n)
+	{
+		m = n * 2 - 1;
+		vector<vector<int>> dp(n, vector<int>(m, 0));
+		dp[0][0] = 1;
+		for (int i = 1; i < n; i++)
+		{
+			dp[i][0] = dp[i][2 * i] = 1;
+			for (int j = 1; j < m; j++)
+			{
+				if (j == 1)
+				{
+					dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
+				}
+				else
+				{
+					dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j] + dp[i - 1][j - 2];
+				}
+			}
+		}
+		int k = 0;
+		for (int k = 0; k < m; k++)
+		{
+			if (dp[n - 1][k] % 2 == 0 && dp[n - 1][k] != 0)
+			{
+				cout << k + 1 << endl;
+				break;
+			}
+		}
+		if (k == m)
+		{
+			cout << '-1' << endl;
+		}
+
+	}
+	return 0;
+}
+第二种以数学题找规律
+
+//#include <iostream>
+//
+//using namespace std;
+//
+//int main()
+//{
+//	int n;
+//	while (cin >> n)
+//	{
+//		if (n == 1 || n == 2)
+//			cout << -1 << endl;
+//		else if (n % 2 == 1)
+//			cout << 2 << endl;
+//		else if (n % 4 == 2)
+//			cout << 4 << endl;
+//		else if (n % 2 == 0)
+//			cout << 3 << endl;
+//	}
+//	return 0;
+//}
