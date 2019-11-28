@@ -1,0 +1,43 @@
+汽水瓶
+#include<iostream>
+
+using namespace std;
+
+int main()
+{
+	int n = 0;
+	
+	while (cin >> n)
+	{
+		int count = 0;
+		int pos = 0;
+		while (n)
+		{
+			if (n == 2)
+			{
+				n = n + 1;
+			}
+			else if (n == 1)
+			{
+				break;
+			}
+			else
+			{
+				pos = n / 3;
+				count += pos;
+				n = n % 3 + pos;
+			}
+
+		}
+		cout << count << endl;
+	}
+	return 0;
+}
+
+假设你只有100Mb的内存，需要对1Gb的数据进行排序，最合适的算法是?
+
+使用归并排序。
+思路：1 先将1G分为10个100M(这里1G可理解近似等于1000M，方便讲解思路)，分别加载10个100M数据到内存中，分别对其进行排序；
+2 然后10文件每个文件选取10M加载到内存进行排序，依次进行。
+即先分解再归并的思路。
+
