@@ -1,0 +1,79 @@
+找出字符串中第一个只出现一次的字符
+
+    用一个数组的每一个位置表示对应的位置。对应的字符位置存放字符出现的次数。统计完之后，遍历输入字
+符，遇到第一个只出现一次的字符就停止
+#include<iostream>
+#include<string>
+
+using namespace std;
+
+int main()
+{
+	//char c[256];
+	string s;
+	while (cin >> s)
+	{
+		int c[256] = {0};
+		for (int i = 0; i < s.size(); i++)
+		{
+			c[s[i]] ++;
+		}
+		int i;
+		for (i = 0; i < s.size(); i++)
+		{
+			if (c[s[i]] == 1)
+			{
+				cout << s[i] << endl;
+				break;
+			}
+		}
+		if (i >= s.size())
+			cout << -1 << endl;
+	}
+	return 0;
+}
+
+小易的升级之路
+    本题的能力值的累加分两种情况，一种是直接相加bi,一种是累加当前能力值于bi的最大公约数。最大公约数
+可以通过碾转相除法求得：a与b的最大公约数相当于b与a,b余数的最大公约数。如果求余结果为0， 则b为所
+求结果
+
+#include<vector>
+#include<iostream>
+using namespace std;
+int GCD(int a, int b)
+{
+    int c;
+    while (c = a % b)
+    {
+        a = b;
+        b = c;
+    }
+    return b;
+}
+int main()
+{
+    int n, power;
+    vector<int> num;
+    while (cin >> n >> power)
+    {
+        num.resize(n);
+        for (int i = 0; i < n; i++)
+        {
+            cin >> num[i];
+        }
+        for (int k = 0; k < n; k++)
+        {
+            if (num[k] < power)
+              {
+                  power += num[k];
+              }
+            else
+            {
+                power += GCD(power, num[k]);
+            }
+        }
+    cout << power << endl;
+    }
+    return 0;
+}
