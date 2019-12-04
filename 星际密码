@@ -1,0 +1,68 @@
+// write your code here cpp
+
+数根
+	
+#include<iostream>
+#include<string>
+
+using namespace std;
+
+int main()
+{
+    string str;
+    while(cin>>str)
+    {
+        int n = 0;
+        for(int i = 0; i < str.size(); i++)
+        {
+            n = n + str[i] - '0';
+			//对数字进行处理防止数字过大，超过int类型的最大值
+        }
+        while(n/10)//判断n输出的条件
+        {
+            int pos = n;
+            n = 0;	// 对n进行初始化
+            while(pos / 10 != 0 || pos % 10 != 0)//进行一次数根的条件
+            {
+                n = n + pos % 10; // 取一位
+                pos = pos / 10; // 降位
+            }
+        }
+        cout << n << endl;
+    }
+    return 0;
+}
+
+星际密码
+
+//斐波那契数列变形先将斐波那契数列初始化输出相应值即可
+
+#include<iostream>
+#include<vector>
+
+using namespace std;
+
+vector<int> a = {1,1};
+void data_init()
+{
+    int i;
+    for(i=2;i<10005;i++)
+    {
+        a.push_back((a[i-1]+a[i-2]) % 10000);
+    }
+}
+int main()
+{
+    int n, t;
+    data_init();
+    while(cin>>n)
+    {
+        while(n--)
+        {
+            cin >> t;
+            printf("%04d",a[t]);//确保不足4位时进行补零
+        }
+        printf("\n");
+    }
+    return 0;
+}
