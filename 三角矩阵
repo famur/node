@@ -1,0 +1,28 @@
+方法二：动态规划（反向思维）
+状态：
+  子状态：从(n,n),(n,n-1),...(1,0),(1,1),(0,0)到最后一行的最短路径和
+  F(i,j): 从(i,j)到最后一行的最短路径和
+状态递推：
+  F(i,j) = min( F(i+1, j), F(i+1, j+1)) + triangle[i][j]
+初始值：
+  F(n-1,0) = triangle[n-1][0], F(n-1,1) = triangle[n-1][1],..., F(n-1,n-1) = triangle[n1][n-1]
+返回结果：
+  F(0, 0)
+  
+这种逆向思维不需要考虑边界，也不需要最后寻找最小值，直接返回F(0,0)即可
+
+class Solution {
+public:
+    int minimumTotal(vector<vector<int> > &triangle) {
+        vector<vector<int>> vv(triangle);
+        int len = vv.size();
+        for(int i = len - 2; i >= 0; i--)
+        {
+            for(int j = 0; j <= i; j++)
+            {
+                vv[i][j] = min(vv[i+1][j], vv[i+1][j+1]) + triangle[i][j];
+            }
+        }
+        return vv[0][0];
+    }
+};
