@@ -1,0 +1,36 @@
+    求一个数n的平方根，相当于求解方程f(x) = x ^ 2 - n的解。
+假设某个迭代点的值是Xi，我们求其下一个迭代点的值Xi+1。如上图所示，在（Xi, Yi）点，我们做函数f(x)的切线，其与横轴相交的点就是下一个迭代点Xi+1。
+根据直线的方程我们很容易写出关系式：f(Xi) = f(Xi)' * (Xi - Xi+1)。由该式可以推得：Xi+1 = (n + Xi ^ 2) / (2 * Xi)。
+那么，循环结束的条件是什么呢？
+显然是Xi与Xi+1十分接近时，就可以终止上述迭代过程了。
+牛顿法求解的时间复杂度与初值点的选取有关，如果初值点的选取离真实解十分接近，那么迭代速度就更快。如果初值点的选取十分离谱，甚至可能会发散，不收敛。空间复杂度是O(1)。
+public class Solution {
+ 
+    public int mySqrt(int x) {
+        double pre = 0, cur = 1;
+        while (Math.abs(pre - cur) >= 0.000001) {
+            pre = cur;
+            cur = (x + cur * cur) / (2 * cur);
+        }
+        return (int) pre;
+    }
+ 
+}
+
+
+    思路一是最先能想到的简单粗暴的解法。从数字1开始找，一旦找到平方值等于x的数字i，直接返回i。如果找到平方值大于x的数字i，需要返回i - 1。
+需要注意的是，为了防止做乘法运算时越界，需要强转为long类型。
+时间复杂度是O(sqrt(x))。空间复杂度是O(1)。
+public class Solution {
+	
+    public int mySqrt(int x) {
+        for (long i = 1; i <= x; i++) {
+			if(i * i > x) {
+				return (int)(i - 1);
+			}else if(i * i == x) {
+				return (int)i;
+			}
+		}
+        return 0;
+    }
+}
