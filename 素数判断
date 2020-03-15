@@ -1,0 +1,148 @@
+在刚开始学习使用C语言时，通过练习编程来提高对语法的思考是一个很不错的方法。判断素数是一个非常适合刚刚开始学习的我们练习的。下面我给大家简绍几种判断素数的方法及参考代码。
+
+**一、暴力方法**
+在数学中我们知道素数是约数只有1和本身的整数称为质数，或称素数。
+所以判断当前数是否为素数可以通过for()控制从2开始到当前数，如果在该过程中存在可以整除的数字则该数不是素数，若没有则该数为素数。
+
+```c
+#include<stdio.h>
+#include<stdlib.h>
+
+int main()
+{
+	int n = 0;
+	scanf("%d", &n);
+	int j = 0; 
+	for (int i = 2; i < n; i++)
+	{
+		if (n % i == 0)
+		{
+			j = 1;
+			printf("该数不是素数！");
+			break;
+		}
+	}
+	if (j == 0)
+	{
+		printf("该数是素数：%d", n);
+	}
+	system("pause");
+	return 0;
+}
+```
+**二、暴力法改进2**
+上述判断方法，明显存在效率极低的问题。对于每个数n，其实并不需要从2判断到n-1，我们知道，一个数若可以进行因数分解，那么分解时得到的两个数一定是一个小于等于sqrt(n)，一个大于等于sqrt(n)，据此，上述代码中并不需要遍历到n-1，遍历到sqrt(n)即可，因为若sqrt(n)左侧找不到约数，那么右侧也一定找不到约数。
+
+```c
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+
+int main()
+{
+	int n = 0;
+	scanf("%d", &n);
+	int j = 0;
+	for (int i = 2; i < sqrt(n); i++)
+	{
+		if (n % i == 0)
+		{
+			j = 1;
+			printf("该数不是素数！");
+			break;
+		}
+	}
+	if (j == 0)
+	{
+		printf("该数是素数：%d", n);
+	}
+	system("pause");
+	return 0;
+}
+```
+**三、数学方法**
+若n≥6且n-1和n+1为孪生素数，那么n一定是6的倍数。
+证明：
+∵ n-1和n+1是素数 ┈┈┈┈┈ ①
+∴ n-1和n+1是奇数
+∴ n是偶数，即n是2的倍数 ┈┈┈┈┈ ②
+假设n不是3的倍数，得：
+n=3x+1 或 n=3x+2，
+如果n=3x+1，则n-1=3x，与①违背，故n≠3x+1；
+如果n=3x+2，则n+1=3(x+1)，与①违背，故n≠3x+2；
+∴假设不成立，即n是3的倍数，又有②得结论：
+n是6的倍数。
+
+由上面的规律可以推出下面结论：
+若x≧1且n=6x-1或n=6x+1不是素数，那么n一定不是2和3的倍数。
+证明：
+∵n=6x-1或n=6x+1，即n=2(3x)-1或n=2(3x)+1或n=3(2x)-1或n=3(2x)+1。
+∴n一定不是2和3的倍数。
+
+素数出现规律：
+当n≧5时，如果n为素数，那么n mod 6 = 1 或 n mod 6 = 5，即n一定出现在6x（x≥1）两侧。
+证明：
+当x≥1时，有如下表示方法：
+┈┈ 6x，6x+1，6x+2，6x+3，6x+4，6x+5，6(x+1），6(x+1)+1┈┈
+不在6x两侧的数为6x+2，6x+3，6x+4，即2(3x+1)，3(2x+1)，2(3x+2)，它们一定不是素数，所以素数一定出现在6x的两侧。
+
+```c
+bool isPrime(int num)
+{
+	if (num == 2 || num == 3)
+	{
+		return true;
+	}
+	if (num % 6 != 1 && num % 6 != 5)
+	{
+		return false;
+	}
+	for (int i = 5; i*i <= num; i += 6)
+	{
+		if (num % i == 0 || num % (i+2) == 0)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+```
+第三个代码原文：
+https://blog.csdn.net/code_pang/article/details/7880245
+**练习一个判断素数的题
+打印100~200之间的素数**
+代码如下：
+
+```c
+#include <stdio.h>
+#include<stdlib.h>
+#include<math.h>
+
+int main()
+{
+	int n = 0;
+	int m = 0;
+	int t = 0;
+	int i = 0;
+	scanf("%d %d", &n, &m);
+	t = sqrt(m);
+	for (int j = n; j <= m; j++)
+	{
+		for (i = 2; i <= t; i++)
+		{
+			if (j % i == 0)
+			{
+				break;
+			}
+
+		}
+		if (i > t)
+		{
+			printf("%d\n", j);
+		}
+
+	}
+	system("pause");
+	return 0;
+}
+```
