@@ -1,0 +1,260 @@
+# 一、什么是多态？
+多态的概念：多种形态。一千个人看《哈姆雷特》，就会有一千个哈姆雷特；这里的人就像对应是C++里的对象。
+# 二、如何定义多态？
+1、构成多态的俩个条件：
+**···**调用函数的对象必须是指针或者引用。
+**···**被调用的函数必须是虚函数，且完成了虚函数的重写。
+2、定义
+
+```cpp
+class Person
+{
+public:
+	virtual void Print()
+	{
+		cout << "我是李梅" << endl;
+	}
+};
+
+class Student : public Person
+{
+public:
+
+	virtual	void Print()
+	{
+		cout << "我是王维" << endl;
+	}
+};
+
+void Func(Person & people)
+{
+	people.Print();
+}
+int main()
+{
+	Person L; 
+	Func(L);//对象L输出李梅
+	Student W;
+	Func(W);//对象W输出王维
+	system("pause");
+	return 0;
+}
+```
+
+通过上面的例子我们可以知道当不同对象，去调用同一命令时产生不同现象就是多态。
+# 三、怎么使用多态？
+1、什么是虚函数?
+就是在类的成员函数的前面加 virtual 关键字
+
+```cpp
+class Student : public Person
+{
+public:
+
+	virtual	void Print()
+	{
+		cout << "我是王维" << endl;
+	}
+};
+```
+2、什么是虚函数的重写？
+虚函数的重写：派生类中有一个跟基类的完全相同虚函数，我们就称子类的虚函数重写了基类的虚函数，完全相同是指：函数名、参数、返回值都相同。另外虚函数的重写也叫作虚函数的覆盖。
+
+```cpp
+class Person
+{
+public:
+	virtual void Print()
+	{
+		cout << "我是李梅" << endl;
+	}
+};
+
+class Student : public Person
+{
+public:
+
+	virtual	void Print()
+	{
+		cout << "我是王维" << endl;
+	}
+};
+```
+3、重写注意的地方
+**····**虚函数重写有一个例外：重写的虚函数的返回值可以不同，但是必须分别是基类指针和派生类指针或者基类引用和派生类引用。
+
+```cpp
+class Person
+{
+public:
+	virtual int Print()
+	{
+		cout << "我是李梅" << endl;
+		return 1;
+	}
+};
+
+class Student : public Person
+{
+public:
+
+	virtual	int Print()
+	{
+		cout << "我是王维" << endl;
+		return 2;
+	}
+};
+```
+**···**在派生类中重写的成员函数可以不加virtual关键字，也是构成重写的，因为继承后基类的虚函数被继承下来了在派生类依旧保持虚函数属性，我们只是重写了它。不建议这样使用。
+
+```cpp
+class Person
+{
+public:
+	virtual void Print()
+	{
+		cout << "我是李梅" << endl;
+	}
+};
+
+class Student : public Person
+{
+public:
+
+	void Print()
+	{
+		cout << "我是王维" << endl;
+	}
+};
+
+void Func(Person & people)
+{
+	people.Print();
+}
+int main()
+{
+	Person L;
+	Func(L);
+	Student W;
+	Func(W);
+	system("pause");
+	return 0;
+}
+```
+
+**···**基类中的析构函数如果是虚函数，那么派生类的析构函数就重写了基类的析构函数。这里他们的函数名不相同，看起来违背了重写的规则，其实不然，这里可以理解为编译器对析构函数的名称做了特殊处理，编译后
+析构函数的名称统一处理成destructor，这也说明的基类的析构函数最好写成虚函数。
+
+```cpp
+class Person
+{
+public:
+	virtual ~Person()
+	{
+		cout << "~Person()" << endl;
+	}
+};
+
+class Student : public Person
+{
+public:
+
+	virtual ~Student()
+	{
+		cout << "~Student" << endl;
+	}
+};
+
+int main()
+{
+	Person *p1 = new Person;
+	Person *p2 = new Student;
+	delete p1;
+	delete p2;
+	system("pause");
+	return 0;
+}
+```
+
+4、接口继承和实现继承
+普通函数的继承是一种实现继承，派生类继承了基类函数，可以使用函数，继承的是函数的实现。虚函数的继承是一种接口继承，派生类继承的是基类虚函数的接口，目的是为了重写，达成多态，继承的是接口。所以如果不实现多态，不要把函数定义成虚函数。
+5、什么是重虚函数？
+在虚函数的后面写上 =0 ，则这个函数为纯虚函数。包含纯虚函数的类叫做抽象类（也叫接口类），抽象类不能实例化出对象。派生类继承后也不能实例化出对象，只有重写纯虚函数，派生类才能实例化出对象。纯虚函数规范了派生类必须重写，另外纯虚函数更体现出了接口继承。
+
+```cpp
+class Person
+{
+public:
+	virtual void Print() = 0;
+};
+
+class Student : public Person
+{
+public:
+
+	void Print()
+	{
+		cout << "我是王维" << endl;
+	}
+};
+
+int main()
+{
+	Person *p2 = new Student;
+	p2->Print();
+	system("pause");
+	return 0;
+}
+```
+
+
+ 1.final 修饰基类的虚函数不能被派生类重写
+ 2.override 修饰派生类虚函数强制完成重写，如果没有重写编译器会报错。
+# 四、多态注意的地方？
+1、下面的代码调用了几次构造函数?调用了几次析构函数?
+
+```cpp
+class Person
+{
+public:
+	Person()
+	{
+		cout << "Person()" << endl;
+	}
+	virtual ~Person()
+	{
+		cout << "~Person()" << endl;
+	}
+};
+
+class Student : public Person
+{
+public:
+	Student()
+	{
+		cout << "Student()" << endl;
+	}
+	virtual ~Student()
+	{
+		cout << "~Student" << endl;
+	}
+};
+
+int main()
+{
+	Person *p1 = new Person;
+	Person *p2 = new Student;
+	delete p1;
+	delete p2;
+	system("pause");
+	return 0;
+}
+```
+
+new Person 时只需调用自己的构造函数即可，new Student 时需要先构造基类的然后在构造派生类的。delete p2时需要先析构派生类的然后再析构基类的。
+2、inline函数可以是虚函数吗？
+不可以，因为inline函数没有地址，无法把地址放到虚函数表中。
+3、静态成员可以是虚函数吗？
+不可以，因为静态成员函数没有this指针，使用类型：：成员函数的调用方式无法访问虚函数表。
+4、构造函数可以是虚函数吗？
+不可以，因为对象中的虚函数表指针是在构造函数初始化列表阶段才初始化的。
