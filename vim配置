@@ -1,0 +1,65 @@
+# Vim配置
+vim是从VI发展而来的一个文本编辑器，功能更强大。而vim.tiny是vim的精简版，所以，安装vim势在必行。刚安装的VIM，可能界面并不是十分友好，这就需要我们去更改vim的配置文件，按照我们的需求去修改它。
+**···**手动安装
+打开Linux终端 键入 su  输入你的登录密码 进入root用户
+然后 键入命令 cd /etc/ 如下图：
+
+接着输入命令 vim vimrc
+如下图
+键入 i 进入编辑模式输入下面的东西
+
+set smarttab
+ " 显示行号
+  set number
+  " 历史记录数                                                                       
+  set history=1000
+  "搜索逐字符高亮
+  set hlsearch
+  set incsearch
+ "语言设置
+ set langmenu=zh_CN.UTF-8
+ set helplang=cn
+ " 总是显示状态行
+ set cmdheight=2
+ " 侦测文件类型
+ filetype on
+ " 载入文件类型插件
+ filetype plugin on
+ " 为特定文件类型载入相关缩进文件
+ filetype indent on
+set viminfo+=!
+ " 带有如下符号的单词不要被换行分割
+ set iskeyword+=_,$,@,%,#,-
+ "将tab替换为空格
+ nmap tt :%s/\t/ /g<CR>
+ 
+ "自动补全
+ :inoremap ( ()<ESC>i
+ :inoremap ) <c-r>=ClosePair(')')<CR>
+ :inoremap { {<CR>}<ESC>O
+ :inoremap } <c-r>=ClosePair('}')<CR>
+ :inoremap [ []<ESC>i
+ :inoremap ] <c-r>=ClosePair(']')<CR>
+ :inoremap " ""<ESC>i
+ :inoremap ' ''<ESC>i
+ function! ClosePair(char)                                                          
+if getline('.')[col('.') - 1] == a:char
+return "\<Right>"
+ " 保存全局变量
+
+
+**···**自动配置
+对vim配置的选择
+ https://gitee.com/HGtz2222/VimForCpp
+ 
+在 shell 中执行指令(想在哪个用户下让vim配置生效, 就在哪个用户下执行这个指令. 强烈 "不推荐" 直接在 root 下执行):
+
+curl -sLf https://gitee.com/HGtz2222/VimForCpp/raw/master/install.sh -o ./install.sh && bash ./install.sh
+需要按照提示输入 root 密码. 您的 root 密码不会被上传, 请放心输入.
+之后等待即可
+
+此时在进入 vim vimrc
+
+配置后的vim如下
+
+**安装过程可能出现不成功，那么你的电脑可能缺少相关软件，此时再次输入安装命令它将帮你自动安装所需软件。**
