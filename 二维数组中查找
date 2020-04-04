@@ -1,0 +1,27 @@
+class Solution {
+public:
+    bool Find(int target, vector<vector<int> > array) {
+         int l = array[0].size();
+         int wide = array.size();
+         bool result = false;
+         int t = 0;
+         int i = l - 1;
+         while(t < wide && i >= 0)
+         {
+              if(array[t][i] > target)
+              {
+                  i--;
+              }
+              else if(array[t][i] == target)
+              {
+                  result = true;
+                  break;
+              }
+              else
+              {
+                  t++;
+              }
+         }
+        return result;
+    }
+};
