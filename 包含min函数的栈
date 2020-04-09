@@ -1,0 +1,28 @@
+class Solution {
+public:
+    stack<int> index;
+    stack <int > Min;
+    void push(int value) {
+        index.push(value);
+        if(Min.size() == 0 || value < Min.top())
+        {
+            Min.push(value);
+        }
+        else
+        {
+            Min.push(Min.top());
+        }
+    }
+    void pop() {
+        index.pop();
+        Min.pop();
+    }
+    int top() {
+        Min.top();
+        int x = index.top();
+        return x;
+    }
+    int min() {
+        return Min.top();
+    }
+};
