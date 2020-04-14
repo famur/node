@@ -1,0 +1,94 @@
+1、特点：遍历的时候，如果遇到比最后一个元素大的节点，就说明它的前面都比最后一个元素小，该元素后面的所有值都必须大于最后一个值，这两个条件必须都要满足。否则就说明该序列不是二叉树后序遍历。
+例子： 2 4 3 6 8 7 5 这是一个正确的后序遍历
+这个例子的特点就是:最后一个元素是 5 ，首先遍历数组，当遍历到6的时候，6前面的值都小于5，如果在6后面的值有一个小于5就不是后序遍历，所以一旦在遍历的时候遇到比最后一个元素的值索引，那么之后的所有元素都必须大于5，否则就不是后序遍历序列。
+bool VerifySquenceOfBST(vector<int> sequence) {
+    if(sequence.size()==0){
+        return false;
+    }
+    int sum = sequence.size()-1;
+    int count = 0;
+    while(sum){
+        while(sequence[count] < sequence[sum]){
+            ++count;
+        }
+        while(sequence[count] > sequence[sum]){
+            ++count;
+        }
+        if(count < sum){
+            return false;
+        }
+        --sum;
+        count = 0;
+    }
+    return true;
+}
+2、
+bool VerifySquenceOfBST(vector<int> sequence) {
+    if(sequence.size()==0){
+        return false;
+    }
+    int sum = sequence.size()-1;
+    int count = 0;
+    while(sum){
+        while(sequence[count] < sequence[sum]){
+            ++count;
+        }
+        while(sequence[count] > sequence[sum]){
+            ++count;
+        }
+        if(count < sum){
+            return false;
+        }
+        --sum;
+        count = 0;
+    }
+    return true;
+}
+3、class Solution {
+public:
+    bool VerifySquenceOfBST(vector<int> &sequence) {
+        if (sequence.size() < 1) return false;
+        else if (sequence.size() < 3) return true;
+        else {
+            int idx = sequence.size() - 1;
+            stack<int> bound_min, bound_max;
+            stack<int> roots;
+            roots.push(sequence[idx--]);
+            bound_min.push(INT_MIN);
+            bound_max.push(INT_MAX);
+ 
+            for (; idx > -1; idx--) {
+                if (sequence[idx] > sequence[idx+1]) {
+                    // 倒序遍历趋势为递增，说明是进入了某个右子树
+                    if (sequence[idx] > bound_max.top())
+                        // 当前元素超越了最大上限约束，这是不合法的
+                        return false;
+                    else {
+                        // 合法，进入右子树，更新三个栈
+                        bound_min.push(roots.top());
+                        bound_max.push(bound_max.top());
+                        roots.push(sequence[idx]);
+                    }
+                }
+                else {
+                    // 倒序遍历趋势为递减，说明是进入了某个左子树
+                    if (sequence[idx] < bound_min.top()) {
+                        // 当前元素打破了最小下限约束，说明是右子树遍历完了，跳转到兄弟左子树
+                        // 当前元素为兄弟左子树的根，之前右子树节点全部出栈
+                        while (sequence[idx] < bound_min.top()) {
+                            bound_min.pop();
+                            bound_max.pop();
+                            roots.pop();
+                        }
+                    }
+                    else {} // 没有突破下限，说明是右子树不存在，直接进入左子树，不做特殊处理
+                    // 进入左子树，更新三个栈
+                    bound_min.push(bound_min.top());
+                    bound_max.push(roots.top());
+                    roots.push(sequence[idx]);
+                }
+            }
+            return true;
+        }
+    }
+};
