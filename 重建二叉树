@@ -1,0 +1,45 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ 前序为根左右  在前序上找根  确定左右树的位置
+ 中序为左根右  确定左右树有效的节点个数
+class Solution {
+public:
+    TreeNode* reConstructBinaryTree(vector<int> pre,vector<int> vin) {
+        if(pre.empty() || vin.empty())
+        {
+            return nullptr;
+        }
+        int i = 0;
+        return Tree(pre, pre.size() - 1 , vin, 0, i);
+    }
+    
+    TreeNode* Tree(vector<int> prev, int end, vector<int> cur, int begin, int i)
+    {
+        if(begin > end)
+        {
+            return NULL;
+        }
+        TreeNode* root = new TreeNode(prev[i]);
+        //确定左树
+        int p = begin;
+        for(; p <= end; p++)
+        {
+            if(cur[p] == prev[i])
+            {
+                //输入左树在pre的范围和左树的根节点的位置
+                root->left = Tree(prev,p - 1,cur,begin, i + 1);
+                //输入右树在pre的范围和右树的根节点的位置
+                root->right = Tree(prev,end,cur,p + 1, i + p - begin +1);
+                break;
+            }
+        }
+        return root;
+    }
+};
