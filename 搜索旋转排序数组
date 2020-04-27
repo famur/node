@@ -1,0 +1,49 @@
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        if(nums.empty())
+        {
+            return -1;
+        }
+        if (nums.size() == 1) return nums[0] == target ? 0 : -1;
+        int begin = 0;
+        int end = nums.size() - 1;
+        int mid = 0;
+        int flag = -1;
+        while(begin <= end)
+        {
+            //二分中间位置
+            mid = (begin + end ) >> 1;
+            if(nums[mid] == target)
+            {
+                return mid;
+            }
+            //确定 0 到 mid 是否有序
+            if(nums[0] <=  nums[mid])
+            {
+                //确定如何缩小范围
+                if(nums[0] <= target && target <  nums[mid])
+                {
+                    end = mid - 1;
+                }
+                else
+                {
+                    begin = mid + 1;
+                }
+            }
+            //前半个中无法找到在后半个中寻找
+            else
+            {
+                if(nums[mid] < target && nums[end] >= target)
+                {
+                    begin = mid + 1;
+                }
+                else
+                {
+                    end = mid - 1;
+                }
+            }
+        }
+        return -1;
+    }
+};
