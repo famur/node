@@ -1,0 +1,28 @@
+class Solution {
+public:
+    void FindNumsAppearOnce(vector<int> nums,int* num1,int *num2) {
+        int ret = 0;
+        for(auto n : nums)
+        {
+            ret ^= n;
+        }
+        //找为一得位置
+        int div = 1;
+        while((div & ret) == 0)
+        {
+            div <<= 1;
+            //左移找一
+        }
+        int a = 0, b = 0;
+        for(auto n : nums)
+        {
+            if(div & n)
+            {
+                a = a^n;
+            }
+        }
+        b = a ^ ret;
+        *num1 = a;
+        *num2 = b;
+    }
+};
