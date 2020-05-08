@@ -1,0 +1,34 @@
+class Solution {
+public:
+    string reverseWords(string s) {
+ stack<string> st;
+		string t,ans;
+		for (int i = 0; i < s.size(); ++i)
+		{
+			if (s[i] != ' ')
+			{
+				while (s[i] != ' ' && i < s.size())
+				{
+					t += s[i];
+					++i;
+				}
+				st.push(t);
+				t.clear();
+			}
+		}
+		while (!st.empty())
+		{
+			string tmp = st.top();
+			st.pop();
+			if (tmp != " ")
+			{
+				if (st.empty())
+					ans += tmp;
+				else
+					ans += tmp + ' ';
+			}
+		}
+		return ans;
+
+    }
+};
