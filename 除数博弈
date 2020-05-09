@@ -1,0 +1,49 @@
+class Solution {
+public:
+    bool divisorGame(int N) {
+        int x = 1;
+        int res = 0;
+       while(x < N)
+        {
+            if(N % x == 0)
+            {
+                N = N - x;
+                res++;
+            }
+            else
+            {
+                x++;
+            }
+        }
+        if(res % 2 == 0 || res == 0)
+        {
+            return false;
+        }
+        return true;
+    }
+};
+
+博弈型动态规划
+dp[i]表示面对数字i，是否先手获胜
+如果面对数字i，取得一个数字j之后，使得数字dp[i-j]为fasle，则dp[i]为true
+dp[i] = (dp[i-j] == false) (0< j <i and i %j == 0)
+
+class Solution {
+public:
+    bool divisorGame(int N) {
+        vector<bool> dp(N+1,false); //dp[i]  面对数字i，是否先手获胜
+        if(N == 1) return false;
+        if(N == 2) return true;
+        dp[2] = true;
+        for(int i = 3; i <= N; i++){
+            for(int j = 1; j < i; j++){
+                if(i % j == 0){
+                    dp[i] = (dp[i-j] == false); 
+                    break; //只要出现一次就可以
+                }
+            }
+        }
+        return dp[N];
+    }
+};
+
