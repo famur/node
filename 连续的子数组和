@@ -1,0 +1,41 @@
+class Solution {
+public:
+    bool checkSubarraySum(vector<int>& nums, int k) {
+        if(nums.size() < 2)
+        {
+            return false;
+        }
+        int n = nums.size();
+        int dp[n];
+        dp[0] = nums[0];
+        //初始化dp数组，保存对应数字的和（i 为 5 时前五个数据的和）
+        for(int i = 1; i < n; i++)
+        {
+            //计算i位置的和
+            dp[i] = dp[i - 1] + nums[i];
+        }
+        for(int i = 0; i < n; i++)
+        {
+            for(int j = i + 1; j < n; j++)
+            {
+                //计算 j到i的和 dp[j] dp[i] 为i 和 j位置的和 所以
+                //dp[j] - dp[i] 多减了一个nums[i]的值
+                int sum = dp[j] - dp[i] + nums[i];
+                if(k == 0)
+                {
+                    if(sum == 0)
+                    //极端情况数组中的元素为 0 并且 k的值为0
+                        return true;
+                }
+                else
+                {
+                    if(sum % k == 0)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+};
