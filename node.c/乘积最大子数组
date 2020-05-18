@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        int maxdp = nums[0], mindp = nums[0], ans = nums[0];
+        //可能存在俩个负数 所以将最小乘积存储下来
+        for(int i = 1; i < nums.size(); i++)
+        {
+            int f1 = maxdp, f2 = mindp;
+            maxdp = max(nums[i] * f1, max(nums[i], nums[i] * f2));
+            mindp = min(nums[i] * f2, min(nums[i], nums[i] * f1));
+            if(ans < maxdp)
+            {
+                ans = maxdp;
+            }
+        }
+        return ans;
+    }
+};
