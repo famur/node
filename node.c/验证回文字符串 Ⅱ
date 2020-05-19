@@ -1,0 +1,35 @@
+class Solution {
+public:
+    bool IsP(string s, int begin, int end)
+    {
+        while(begin <= end)
+        {
+            if(s[begin] == s[end])
+            {
+                begin++;
+                end--;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    bool validPalindrome(string s) {
+        int r = 0, l = s.size() - 1;
+        while(r <= l)
+        {
+            if(s[r] == s[l])
+            {
+                r++;
+                l--;
+            }
+            else
+            {
+                return IsP(s, r+1, l) || IsP(s, r, l-1);
+            }
+        }
+        return true;
+    }
+};
