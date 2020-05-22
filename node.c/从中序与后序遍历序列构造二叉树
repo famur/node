@@ -1,0 +1,39 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+       if(inorder.empty() || postorder.empty())
+       {
+           return NULL;
+       } 
+       int index = postorder.size() - 1;
+       return CTree(inorder, postorder, 0, postorder.size() - 1, index);
+    }
+    TreeNode * CTree(vector<int>&inorder, vector<int>&postorder, int begin, int end, int index)
+    {
+        if(begin > end)
+        {
+            return NULL;
+        }
+        TreeNode * root = new TreeNode(postorder[index]);
+        int p = begin;
+        for(; p <= end; p++)  
+        {
+            if(inorder[p] == postorder[index])
+            {
+                //确定左树跟的位置 end - p 为右树元素的个数 index - （end - p）当前根的位置 - 1为左树根的位置
+                root->left = CTree(inorder, postorder, begin, p - 1, index - end + p - 1);
+                root->right = CTree(inorder, postorder, p + 1,end, index - 1);
+            }
+        }
+        return root;
+    }
+};
