@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<int> FindNumbersWithSum(vector<int> array,int sum) {
+        vector<int> res;
+        int s = 0;
+        for(int i = 0; i < array.size(); i++)
+        {
+            int n = sum - array[i];
+            std::vector<int>::iterator it;
+            it = find(array.begin(), array.end(), n);
+            if(it != array.end())
+            {
+                if(s == 0)
+                {
+                    s = n * array[i];
+                    res.push_back(array[i]);
+                    res.push_back(n);
+                }
+                if(s > (n * array[i]))
+                {
+                    res.clear();
+                    res.push_back(array[i]);
+                    res.push_back(n);
+                }
+            }
+        }
+        return res;
+    }
+};
